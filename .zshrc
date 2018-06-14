@@ -1,7 +1,7 @@
 # source .profile if it exists
-#if [ -e $HOME/.profile ]; then
-#	source $HOME/.profile
-#fi
+if [ -e $HOME/.profile ]; then
+	source $HOME/.profile
+fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -16,6 +16,7 @@ export ZSH=/home/christian/.oh-my-zsh
 
 # Helpful aliases
 alias sl='ls'
+alias t='todo.sh'
 alias whoops='sudo !!'	# TODO: find the weird hack that makes this command
 			# actually work
 
