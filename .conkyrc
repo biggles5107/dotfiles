@@ -16,7 +16,7 @@ conky.config = {
   alignment = 'top_left',
   own_window = true,
   own_window_type = 'desktop',
-  own_window_transparent = false,
+  own_window_transparent = true,
 --own_window_colour = '000000',
   own_window_argb_visual = true,
   own_window_argb_value = 100,
@@ -38,7 +38,7 @@ conky.config = {
   -- Text settings
   use_xft = true,
   xftalpha = 1,
-  font = 'Ubuntu:size=10',
+  font = 'Lato:size=10',
   text_buffer_size = 256,
   override_utf8_locale = true,
 
@@ -50,47 +50,49 @@ conky.config = {
   -- Color scheme
   default_color = 'FFFFFF',
   color1 = 'FFFFFF',	-- white
-  color2 = '01A299',	-- teal
-  color3 = '4D8CF5',	-- blue
+  color2 = '009588',	-- teal
+  color3 = '2392F0',	-- blue
   color4 = 'FF5252',	-- red
   color5 = '8AC455',	-- green
-  color6 = '00BCD4',	-- cyan
+  color6 = '00BAD2',	-- cyan
 }
 
 conky.text = [[
-${font Ubuntu:size=16}$nodename
-${font}${execi 1000 lsb_release -i|cut -c 17-} \
+${font Lato:size=16}$nodename
+${voffset -5}${font}${execi 1000 lsb_release -i|cut -c 17-} \
 $color3${execi 1000 lsb_release -r|cut -c 10-} \
 "${execi 1000 lsb_release -c |cut -c 11-}"
 ${color}${sysname} ${color2}${kernel}
 ${color}up ${color5}${uptime}
 ${color}load ${color4}${loadavg}
 
-${font Ubuntu:size=12:weight=medium}${color}cpu
+${font Lato:size=10:weight=bold}${color}CPU
 ${font}perc ${color3}${cpu}
 ${color}mhz ${color2}${freq}
 ${color}volts ${color6}${hwmon 0 in 0}
 ${color}temp ${color4}${hwmon 0 temp 3}
 ${color}fan_rpm ${color5}${hwmon 0 fan 1}
 
-${font Ubuntu:size=12:weight=medium}${color}mem
+${font Lato:size=10:weight=bold}${color}MEM
 ${font}dram ${color3}${mem}
 ${color}swap ${color2}${swap}
 
-${font Ubuntu:size=12:weight=medium}${color}nvidia
+${font Lato:size=10:weight=bold}${color}NVIDIA\
+${if_match "${execi 30 nvidia-smi | grep -i failed}"==""} 
 ${font}perc ${color3}${exec nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits}
 ${color}mhz ${color2}${exec nvidia-smi --query-gpu=clocks.current.graphics --format=csv,noheader,nounits}
 ${color}vram ${color6}${exec nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits}M
 ${color}temp ${color4}${exec nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits}
 ${color}fan_perc ${color5}${exec nvidia-smi --query-gpu=fan.speed --format=csv,noheader,nounits}
+${else}${color4}${font} unavailable${endif}
 
 ${if_existing /proc/net/route enp2s0}\
-${font Ubuntu:size=12:weight=medium}${color}enp2s0
+${font Lato:size=10:weight=bold}${color}ENP2S0
 ${font}ip ${color3}${addr enp2s0}
 ${color}down ${color5}${downspeed enp2s0}
 ${color}up ${color4}${upspeed enp2s0}
 ${else}${if_existing /proc/net/route wlp5s0}\
-${font Ubuntu:size=12:weight=medium}${color}wlp5s0
+${font Lato:size=10:weight=bold}${color}WLP5S0
 ${font}ip ${color3}${addr wlp5s0}
 ${color}ssid ${color2}${wireless_essid wlp5s0}
 ${color}link ${color6}${wireless_bitrate wlp5s0} \
