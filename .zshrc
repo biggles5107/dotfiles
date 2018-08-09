@@ -17,8 +17,27 @@ export ZSH=/home/christian/.oh-my-zsh
 # Helpful aliases
 alias sl='ls'
 alias t='todo.sh'
-alias whoops='sudo !!'	# TODO: find the weird hack that makes this command
+#alias notify-job-done='notify-send -i "utilities-terminal-symbolic" "Terminal" "The job has been completed successfully."'
+#alias whoops='sudo !!'	# TODO: find the weird hack that makes this command
 			# actually work
+
+# notify of job success or failure
+notify-job-done () {
+	local EXIT_STATUS=$?
+	case $EXIT_STATUS in
+		0)
+			notify-send -i "utilities-terminal-symbolic" "Success" "The job has been completed successfully."
+			;;
+		1)
+			notify-send -i "utilities-terminal-symbolic" "Failure" "The job has failed to complete."
+			;;
+		*)
+			notify-send -i "utilities-terminal-symbolic" "Error" "An error has occurred."
+			;;
+	esac
+	# make sure the exit code shows in the terminal
+	return $EXIT_STATUS
+}
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -34,9 +53,9 @@ alias whoops='sudo !!'	# TODO: find the weird hack that makes this command
 #[ "$REALTERM" = 'linux' ] && setfont /usr/share/consolefonts/ter-powerline-v16n.psf.gz
 
 # prompt elements
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(root_indicator context_joined dir ssh vcs)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(root_indicator context_joined dir ssh)
 #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs load ram time)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs vcs todo time)
 
 # 'root_indicator' settings
 POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND=001
@@ -117,7 +136,7 @@ POWERLEVEL9K_STATUS_OK=false
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
