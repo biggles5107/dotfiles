@@ -83,7 +83,7 @@ ${font}perc ${color3}${exec nvidia-smi --query-gpu=utilization.gpu --format=csv,
 ${color}mhz ${color2}${exec nvidia-smi --query-gpu=clocks.current.graphics --format=csv,noheader,nounits}
 ${color}vram ${color6}${exec nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits}M
 ${color}temp ${color4}${exec nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits}
-${color}fan_perc ${color5}${exec nvidia-smi --query-gpu=fan.speed --format=csv,noheader,nounits}
+${color}fan_perc ${color5}${exec nvidia-smi --query-gpu=fan.speed --format=csv,noheader,nounits}\
 ${else}${color4}${font} unavailable${endif}
 
 ${if_existing /proc/net/route enp2s0}\
