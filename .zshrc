@@ -47,7 +47,7 @@ notify-job-done () {
 # powerlevel9k settings
 # if we're not running in the linux console (i.e., a graphical terminal)
 # use font-awesome cuz it's cool (actually nerdfont cuz it's better)
-[ "$REALTERM" != 'linux' ] && POWERLEVEL9K_MODE='nerdfont-complete'
+[ "$REALTERM" != 'linux' ] && POWERLEVEL9K_MODE='awesome-fontconfig'
 
 # if we ARE in the linux console, use the terminus font patched for powerline
 #[ "$REALTERM" = 'linux' ] && setfont /usr/share/consolefonts/ter-powerline-v16n.psf.gz
@@ -77,11 +77,11 @@ POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND=000
 POWERLEVEL9K_DIR_DEFAULT_FOREGROUND=004
 
 # make dir show nothing but the current directory name
-#POWERLEVEL9K_HOME_FOLDER_ABBREVIATION=""
-#POWERLEVEL9K_DIR_PATH_SEPARATOR=""
-#POWERLEVEL9K_SHORTEN_DIR_LENGTH=0
-#POWERLEVEL9K_SHORTEN_DELIMITER=""
-#POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+POWERLEVEL9K_HOME_FOLDER_ABBREVIATION="~"
+POWERLEVEL9K_DIR_PATH_SEPARATOR=""
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+POWERLEVEL9K_SHORTEN_DELIMITER=""
+POWERLEVEL9K_SHORTEN_STRATEGY="truncate_folders"
 
 # disable the FontAwesome directory icons
 POWERLEVEL9K_HOME_ICON=""
