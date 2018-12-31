@@ -47,7 +47,7 @@ notify-job-done () {
 # powerlevel9k settings
 # if we're not running in the linux console (i.e., a graphical terminal)
 # use font-awesome cuz it's cool (actually nerdfont cuz it's better)
-[ "$REALTERM" != 'linux' ] && POWERLEVEL9K_MODE='awesome-fontconfig'
+[ "$REALTERM" != 'linux' ] && POWERLEVEL9K_MODE='nerdfont-complete'
 
 # if we ARE in the linux console, use the terminus font patched for powerline
 #[ "$REALTERM" = 'linux' ] && setfont /usr/share/consolefonts/ter-powerline-v16n.psf.gz
