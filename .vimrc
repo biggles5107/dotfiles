@@ -5,3 +5,6 @@ set ttymouse=xterm2
 " enable modeline support
 set modeline
 set modelines=5
+
+" syntax highlighting
+syntax on
