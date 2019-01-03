@@ -1,0 +1,94 @@
+-- vim: set syntax=lua:
+
+conky.config = {
+  -- Conky settings
+  background = true,
+  update_interval = 2,
+  double_buffer = true,
+  no_buffers = true,
+  imlib_cache_size = 10,
+
+  -- Window specifications
+  gap_x = 30,
+  gap_y = 50,
+--minimum_size 268 1220
+--maximum_width 268
+  alignment = 'top_left',
+  own_window = true,
+  own_window_type = 'desktop',
+  own_window_transparent = true,
+--own_window_colour = '000000',
+  own_window_argb_visual = true,
+  own_window_argb_value = 100,
+  own_window_hints = 'undecorated,sticky,skip_taskbar,skip_pager,below',
+  border_inner_margin = 5,
+  border_outer_margin = 5,
+
+  -- Graphics settings
+  draw_shades = false,
+  default_shade_color = '333333',
+  draw_outline = false,
+  default_outline_color = 'AAAAAA',
+  draw_borders = false,
+  draw_graph_borders = false,
+--default_graph_size 26 80
+  show_graph_scale = false,
+  show_graph_range = false,
+
+  -- Text settings
+  use_xft = true,
+  xftalpha = 1,
+  font = 'Roboto:size=10',
+  text_buffer_size = 256,
+  override_utf8_locale = true,
+
+  -- Useful shortenings
+  short_units = true, 
+  pad_percents = 2,
+  top_name_width = 30,
+
+  -- Color scheme
+  default_color = 'FFFFFF',
+  color1 = 'FFFFFF',	-- white
+  color2 = '009588',	-- teal
+  color3 = '2392F0',	-- blue
+  color4 = 'FF5252',	-- red
+  color5 = '8AC455',	-- green
+  color6 = '00BAD2',	-- cyan
+}
+
+conky.text = [[
+${font Roboto:size=16:weight=light}$nodename
+${voffset -5}${font}${execi 1000 lsb_release -i|cut -c 17-} \
+$color3${execi 1000 lsb_release -r|cut -c 10-}
+#"${execi 1000 lsb_release -c |cut -c 11-}"
+${color}${sysname} ${color2}${kernel}
+${color}up ${color5}${uptime}
+${color}load ${color4}${loadavg}
+
+${font Roboto:size=10:weight=bold}${color}CPU
+${font}perc ${color3}${cpu}
+${color}mhz ${color2}${freq}
+#${color}volts ${color6}${hwmon 0 in 0}
+${color}temp ${color4}${hwmon 1 temp 1}
+#${color}fan_rpm ${color5}${hwmon 0 fan 1}
+
+${font Roboto:size=10:weight=bold}${color}MEM
+${font}dram ${color3}${mem}
+${color}swap ${color2}${swap}
+
+${if_existing /proc/net/route enp2s0}\
+${font Roboto:size=10:weight=bold}${color}ENP2S0
+${font}ip ${color3}${addr enp2s0}
+${color}down ${color5}${downspeed enp2s0}
+${color}up ${color4}${upspeed enp2s0}
+${else}${if_existing /proc/net/route wlp1s0}\
+${font Roboto:size=10:weight=bold}${color}WLP1S0
+${font}ip ${color3}${addr wlp1s0}
+${color}ssid ${color2}${wireless_essid wlp1s0}
+${color}link ${color6}${wireless_bitrate wlp1s0} \
+(${wireless_link_qual_perc wlp1s0}%)
+${color}down ${color5}${downspeed wlp1s0}
+${color}up ${color4}${upspeed wlp1s0}\
+${endif}${endif}
+]]
