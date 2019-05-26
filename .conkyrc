@@ -9,8 +9,8 @@ conky.config = {
   imlib_cache_size = 10,
 
   -- Window specifications
-  gap_x = 30,
-  gap_y = 100,
+  gap_x = 25,
+  gap_y = 80,
 --minimum_size 268 1220
 --maximum_width 268
   alignment = 'top_left',
@@ -38,7 +38,7 @@ conky.config = {
   -- Text settings
   use_xft = true,
   xftalpha = 1,
-  font = 'Lato:size=10',
+  font = 'Fira Sans:size=10',
   text_buffer_size = 256,
   override_utf8_locale = true,
 
@@ -58,26 +58,26 @@ conky.config = {
 }
 
 conky.text = [[
-${font Lato:size=16}$nodename
+${font Fira Sans:size=16}$nodename
 ${voffset -5}${font}${execi 1000 lsb_release -i|cut -c 17-} \
 $color3${execi 1000 lsb_release -r|cut -c 10-} \
-"${execi 1000 lsb_release -c |cut -c 11-}"
+${execi 1000 lsb_release -c |cut -c 11-}
 ${color}${sysname} ${color2}${kernel}
 ${color}up ${color5}${uptime}
 ${color}load ${color4}${loadavg}
 
-${font Lato:size=10:weight=bold}${color}CPU
+${font Fira Sans:size=10:weight=200}${color}CPU
 ${font}perc ${color3}${cpu}
 ${color}mhz ${color2}${freq}
 ${color}volts ${color6}${hwmon 0 in 0}
-${color}temp ${color4}${hwmon 0 temp 3}
+${color}temp ${color4}${hwmon 2 temp 1}
 ${color}fan_rpm ${color5}${hwmon 0 fan 1}
 
-${font Lato:size=10:weight=bold}${color}MEM
+${font Fira Sans:size=10:weight=200}${color}MEM
 ${font}dram ${color3}${mem}
 ${color}swap ${color2}${swap}
 
-${font Lato:size=10:weight=bold}${color}NVIDIA\
+${font Fira Sans:size=10:weight=200}${color}NVIDIA\
 ${if_match "${execi 30 nvidia-smi | grep -i failed}"==""} 
 ${font}perc ${color3}${exec nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits}
 ${color}mhz ${color2}${exec nvidia-smi --query-gpu=clocks.current.graphics --format=csv,noheader,nounits}
@@ -86,18 +86,18 @@ ${color}temp ${color4}${exec nvidia-smi --query-gpu=temperature.gpu --format=csv
 ${color}fan_perc ${color5}${exec nvidia-smi --query-gpu=fan.speed --format=csv,noheader,nounits}\
 ${else}${color4}${font} unavailable${endif}
 
-${if_existing /proc/net/route enp2s0}\
-${font Lato:size=10:weight=bold}${color}ENP2S0
-${font}ip ${color3}${addr enp2s0}
-${color}down ${color5}${downspeed enp2s0}
-${color}up ${color4}${upspeed enp2s0}
-${else}${if_existing /proc/net/route wlp5s0}\
-${font Lato:size=10:weight=bold}${color}WLP5S0
-${font}ip ${color3}${addr wlp5s0}
-${color}ssid ${color2}${wireless_essid wlp5s0}
-${color}link ${color6}${wireless_bitrate wlp5s0} \
-(${wireless_link_qual_perc wlp5s0}%)
-${color}down ${color5}${downspeed wlp5s0}
-${color}up ${color4}${upspeed wlp5s0}\
+${if_existing /proc/net/route enp3s0}\
+${font Fira Sans:size=10:weight=200}${color}ENP3S0
+${font}ip ${color3}${addr enp3s0}
+${color}down ${color5}${downspeed enp3s0}
+${color}up ${color4}${upspeed enp3s0}
+${else}${if_existing /proc/net/route wlp4s0}\
+${font Fira Sans:size=10:weight=200}${color}WLP4S0
+${font}ip ${color3}${addr wlp4s0}
+${color}ssid ${color2}${wireless_essid wlp4s0}
+${color}link ${color6}${wireless_bitrate wlp4s0} \
+(${wireless_link_qual_perc wlp4s0}%)
+${color}down ${color5}${downspeed wlp4s0}
+${color}up ${color4}${upspeed wlp4s0}\
 ${endif}${endif}
 ]]
