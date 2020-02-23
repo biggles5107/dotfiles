@@ -1,61 +1,79 @@
 # source .profile if it exists
 if [ -e $HOME/.profile ]; then
-	source $HOME/.profile
+  source $HOME/.profile
 fi
+
+# source font config file
+#source $HOME/.fonts/fontawesome-regular.sh
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # A dirty hack to make zsh stop nagging me about lack of 256 color support,
 # but still allow me to make accommodations for the Linux console.
-REALTERM=$TERM
-TERM='xterm-256color'
+#REALTERM=$TERM
+[ "$TERM" = 'xterm' ] && export TERM='xterm-256color'
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/christian/.oh-my-zsh
 
+# environment variables for mcrcon
+export MCRCON_HOST=192.168.1.20
+export MCRCON_PORT=25575
+export MCRCON_PASS=mcpasswd
+
 # Helpful aliases
 alias sl='ls'
 alias t='todo.sh'
-#alias notify-job-done='notify-send -i "utilities-terminal-symbolic" "Terminal" "The job has been completed successfully."'
-#alias whoops='sudo !!'	# TODO: find the weird hack that makes this command
-			# actually work
+alias please='sudo $(fc -ln -1)'
+alias weather='curl wttr.in'
+alias purge-residual='sudo apt-get purge $(dpkg -l | grep "^rc" | awk "{print $2}")'
+alias conf='vim ~/.zshrc'
 
 # notify of job success or failure
 notify-job-done () {
-	local EXIT_STATUS=$?
-	case $EXIT_STATUS in
-		0)
-			notify-send -i "utilities-terminal-symbolic" "Success" "The job has been completed successfully."
-			;;
-		1)
-			notify-send -i "utilities-terminal-symbolic" "Failure" "The job has failed to complete."
-			;;
-		*)
-			notify-send -i "utilities-terminal-symbolic" "Error" "An error has occurred."
-			;;
-	esac
-	# make sure the exit code shows in the terminal
-	return $EXIT_STATUS
+  local EXIT_STATUS=$?
+  case $EXIT_STATUS in
+    0)
+      notify-send -i "utilities-terminal-symbolic" "Success" "The job has been completed successfully."
+      ;;
+    1)
+      notify-send -i "utilities-terminal-symbolic" "Failure" "The job has failed to complete."
+      ;;
+    *)
+      notify-send -i "utilities-terminal-symbolic" "Error" "An error has occurred."
+      ;;
+  esac
+  # make sure the exit code shows in the terminal
+  return $EXIT_STATUS
 }
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-[ "$REALTERM" != 'linux' ] && ZSH_THEME="powerlevel9k/powerlevel9k"
+[ "$TERM" != 'linux' ] && ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # powerlevel9k settings
 # if we're not running in the linux console (i.e., a graphical terminal)
 # use font-awesome cuz it's cool (actually nerdfont cuz it's better)
-[ "$REALTERM" != 'linux' ] && POWERLEVEL9K_MODE='nerdfont-complete'
+#[ "$REALTERM" != 'linux' ] && POWERLEVEL9K_MODE='nerdfont-complete'
+
+[ "$TERM" != 'linux' ] && POWERLEVEL9K_MODE='nerdfont-complete'
 
 # if we ARE in the linux console, use the terminus font patched for powerline
 #[ "$REALTERM" = 'linux' ] && setfont /usr/share/consolefonts/ter-powerline-v16n.psf.gz
 
 # prompt elements
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(root_indicator context_joined dir ssh)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context ssh dir vcs)
 #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs load ram time)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs vcs todo time)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs)
+
+# multiline business
+#POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+#POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
+#POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
+#POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="$ "
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 
 # 'root_indicator' settings
 POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND=001
@@ -65,8 +83,6 @@ DEFAULT_USER="christian"
 POWERLEVEL9K_ALWAYS_SHOW_CONTEXT=true
 POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND=002
 POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=001
-POWERLEVEL9K_CONTEXT_BOLD=true	# doesn't currently work but is in a different
-				# branch of powerlevel9k
 
 # 'dir' appearance
 POWERLEVEL9K_DIR_HOME_BACKGROUND=004
@@ -91,12 +107,15 @@ POWERLEVEL9K_HOME_SUB_ICON=""
 POWERLEVEL9K_FOLDER_ICON=""
 POWERLEVEL9K_ETC_ICON=""
 
-# disable FontAwesome time icon
+# 'time' settings
 POWERLEVEL9K_TIME_ICON=""
+POWERLEVEL9K_TIME_FORMAT='%D{%H:%M}'
+
+# 'vcs' settings
+POWERLEVEL9K_HIDE_BRANCH_ICON=true
+#POWERLEVEL9K_HIDE_TAGS=true # not sure what this does...
 
 # other settings
-#POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
-#POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_STATUS_OK=false
 #POWERLEVEL9K_DISABLE_RPROMPT=true
 
@@ -142,7 +161,7 @@ POWERLEVEL9K_STATUS_OK=false
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting)
+plugins=(git zsh-syntax-highlighting autojump zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -174,3 +193,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# zsh-autosuggestions
+#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=black,bg=white"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#808080"
+bindkey '^ ' autosuggest-accept # ctrl+space
+
+
