@@ -69,9 +69,9 @@ ${color}load ${color4}${loadavg}
 ${font Noto Sans:size=9:weight=200}${color}CPU
 ${font}perc ${color3}${cpu}
 ${color}mhz ${color2}${freq}
-${color}volts ${color6}${hwmon 3 in 10}
-${color}temp ${color4}${hwmon 2 temp 1}
-${color}fan_rpm ${color5}${hwmon 3 fan 2}
+${color}volts ${color6}${exec sensors nct6779-*|awk '/in10/ {gsub(/\+/,"",$2); print $2}'}
+${color}temp ${color4}${exec sensors coretemp-*|awk '/Package id 0/ {gsub(/\+/,"",$4); gsub(/\..+/,"",$4); print $4}'}
+${color}fan_rpm ${color5}${exec sensors nct6779-*|awk '/fan5/ {print $2}'}
 
 ${font Noto Sans:size=9:weight=200}${color}MEM
 ${font}dram ${color3}${mem}
